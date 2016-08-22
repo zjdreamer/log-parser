@@ -38,12 +38,29 @@ def apiParse(log):
         logFile.close()
         
         total_api_calls = sum(api_calls.values())
+        numDig = len(str(max(api_calls.values())))
 
         for apis, totals in sorted(api_calls.iteritems(), reverse=True, key=lambda(k,v): (v,k)):
             percent = totals/float(total_api_calls)
             percent *= 100
 
-            print "{0:,.2f}".format(percent) + "%  " + str(totals) + "  " + apis
+            apiOut = "{0:,.2f}".format(percent)
+            
+            if(percent < 10):
+                apiOut += "%   "
+            else:
+                apiOut += "%  "
+
+            apiOut +=  str(totals)
+            
+            curNumDig = len(str(totals))
+            
+            for i in range(curNumDig, numDig):
+                apiOut += " "
+
+            apiOut += " " + apis
+            
+            print apiOut
         print str(total_api_calls) + " Total API Calls"
     
     except IOError as err:
