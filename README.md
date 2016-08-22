@@ -29,12 +29,12 @@ submission.
 
 1) How many callbacks did we receive for partner id `nyr8nx`.
 
-**Running `cat elblogs.txt | grep nyr8nx | wc -l` returns 96 callbacks**
+**Running** `cat elblogs.txt | grep nyr8nx | wc -l` **returns 96 callbacks**
 
 2) How many callbacks did we receive for partner `nyr8nx` for campaign id
 (cid) `X9KN0`
 
-**Running `cat elblogs.txt | grep nyr8nx | grep X9KN0 | wc -l` returns 27 callbacks**
+**Running** `cat elblogs.txt | grep nyr8nx | grep X9KN0 | wc -l` **returns 27 callbacks**
 
 3) Write a python script that analyzes `elblogs.txt` and counts all
 API requests (requests starting with `api/`).  Print them out in
@@ -45,6 +45,8 @@ descending frequency.
 **The script also has a --mode option to look for Callbacks instead of API Calls**
 
 **When running in CALL mode, PID and CID can be set to narrow down the results**
+
+**Run** `python log-parser.py -h` **for assistence**
 
 On each line, print the percentage of requests this api request represented
 (to 2 decimal points of precision), the number of total requests made to this
