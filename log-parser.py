@@ -72,6 +72,8 @@ def callParse(log):
         logFile = open(log, "r")
         
         count = 0
+        pid = "/" + str(args.pid) + "?"
+        cid = "cid=" + str(args.cid)
 
         for line in logFile.xreadlines():
         
@@ -80,13 +82,13 @@ def callParse(log):
             if(index > -1):
                 
                 if args.pid is not None and args.cid is not None:
-                    if(line.find(args.pid) > -1 and line.find(args.cid) > -1):
+                    if(line.find(pid) > -1 and line.find(cid) > -1):
                         count += 1
                 elif args.pid is not None:
-                    if(line.find(args.pid) > -1):
+                    if(line.find(pid) > -1):
                         count+= 1
                 elif args.cid is not None:
-                    if(line.find(args.pid) > -1):
+                    if(line.find(pid) > -1):
                         count += 1
                 else:
                     count +=1
