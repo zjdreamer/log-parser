@@ -34,7 +34,7 @@ submission.
 2) How many callbacks did we receive for partner `nyr8nx` for campaign id
 (cid) `X9KN0`
 
-**Running** `cat elblogs.txt | grep /aff/callback/ | grep nyr8nx | wc -l` **returns 27 callbacks**
+**Running** `cat elblogs.txt | grep /aff/callback/ | grep nyr8nx | grep X9KN0 | wc -l` **returns 27 callbacks**
 
 3) Write a python script that analyzes `elblogs.txt` and counts all
 API requests (requests starting with `api/`).  Print them out in
