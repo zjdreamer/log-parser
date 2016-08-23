@@ -1,5 +1,11 @@
+#################################################
+#################################################
+#################log-parser.py###################
+#################################################
+#################################################
+
+
 #!/usr/bin/python
-import numpy as np
 import argparse
 
 
@@ -13,13 +19,13 @@ parser.add_argument('--cid', help='the campaign ID to search for callbacks from.
 args = parser.parse_args()
 
 def apiParse(log):
-     
+    
     try:
         logFile = open(log, "r")
     
-        api_calls = {}
+        api_calls = {} #define empty dictionary
 
-        for line in logFile.xreadlines():
+        for line in logFile: #loop through line by line
         
             index = line.find("api/")
         
@@ -27,10 +33,11 @@ def apiParse(log):
             
                 api = line[index:]
                 
-                api = api.replace('"', '')
+                api = api.replace('"', '') #strip any rogue quotes, needed for partition to not break
 
-                api = api.partition(' ')[0]
+                api = api.partition(' ')[0] #split on the first space, should strip everything except the api call
                 
+                #if api is mapped, add one, otherwise map it
                 if api in api_calls:
                     api_calls[api] += 1
                 else:
@@ -41,11 +48,12 @@ def apiParse(log):
         numDig = len(str(max(api_calls.values())))
 
         for apis, totals in sorted(api_calls.iteritems(), reverse=True, key=lambda(k,v): (v,k)):
-            percent = totals/float(total_api_calls)
+            percent = totals/float(total_api_calls) #float in the denom forces the whole thing to eval as a float
             percent *= 100
 
-            apiOut = "{0:,.2f}".format(percent)
+            apiOut = "{0:,.2f}".format(percent) #format percent to 2 decimal places
             
+            #add three spaces if the current percent is under 10%, for formatting reasons
             if(percent < 10):
                 apiOut += "%   "
             else:
@@ -53,11 +61,12 @@ def apiParse(log):
 
             apiOut +=  str(totals)
             
-            curNumDig = len(str(totals))
+            curNumDig = len(str(totals)) #convert totals to a string and then get the number of digits
             
+            #add N spaces where N is the difference between the number of digits in the current value vs the max value
             for i in range(curNumDig, numDig):
                 apiOut += " "
-
+            #add one space as the default, then append the current API
             apiOut += " " + apis
             
             print apiOut
@@ -81,6 +90,7 @@ def callParse(log):
         
             if(index > -1):
                 
+                #check the flags and keep a count based on the given paramaters
                 if args.pid is not None and args.cid is not None:
                     if(line.find(pid) > -1 and line.find(cid) > -1):
                         count += 1
@@ -110,7 +120,4 @@ def callParse(log):
 if(args.mode=='CALL'):
     callParse(args.log)
 else:
-    apiParse(args.log)
-
-
-
+    apiParse(args.log) #API is the default mode, so no need to check the mode if it's not CALL
